@@ -1,12 +1,7 @@
 # BaklibApi
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/baklib_api`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
-## Installation
-
-Add this line to your application's Gemfile:
+baklib官网地址： [https://www.baklib.com/](https://www.baklib.com/)
+## 安装
 
 ```ruby
 gem 'baklib_api'
@@ -20,16 +15,35 @@ Or install it yourself as:
 
     $ gem install baklib_api
 
-## Usage
+## 配置
+在`config/initializers`文件夹下面添加`baklib_api.rb`配置文件
 
-TODO: Write usage instructions here
+```ruby
+require 'baklib_api'
+BaklibApi::Config.setup do |config|
+  config.token = BAKLIB_TOKEN
+end
+```
 
-## Development
+## 方法
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+`baklib_api`提供了以下方法可以直接调用`baklib`的接口
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/baklib_api.
+调用方式及说明：
+```ruby
+BaklibApi.create_article(params)
+BaklibApi.destroy_article(params)
+BaklibApi.list_articles(params)
+BaklibApi.show_article(params)
+BaklibApi.update_article(params)
+BaklibApi.create_channel(params)
+BaklibApi.destroy_channel(params)
+BaklibApi.list_channels(params)
+BaklibApi.show_channel(params)
+BaklibApi.update_channel(params)
+BaklibApi.create_tenant(params)
+BaklibApi.destroy_tenant(params)
+BaklibApi.list_tenants(params)
+BaklibApi.show_tenant(params)
+BaklibApi.update_tenant(params)
+```
