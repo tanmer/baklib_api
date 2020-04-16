@@ -3,21 +3,23 @@
 baklib官网地址： [https://www.baklib.com/](https://www.baklib.com/)
 ## 安装
 
+在您 Ruby 应用程序的 Gemfile 文件中，添加如下一行代码：
+
 ```ruby
 gem 'baklib_api'
 ```
-
-And then execute:
+然后，在应用程序所在的目录下，可以运行 bundle 安装依赖包：
 
     $ bundle
 
-Or install it yourself as:
+或者，可以使用 Ruby 的包管理器 gem 进行安装：
 
     $ gem install baklib_api
 
 ## 配置
 在`config/initializers`文件夹下面添加`baklib_api.rb`配置文件
 
+Token值获取请参阅[baklib API官方文档说明](https://guide.baklib.com/api_doc/2751)
 ```ruby
 require 'baklib_api'
 BaklibApi::Config.setup do |config|
@@ -25,25 +27,5 @@ BaklibApi::Config.setup do |config|
 end
 ```
 
-## 方法
-
-`baklib_api`提供了以下方法可以直接调用`baklib`的接口
-
-调用方式及说明：
-```ruby
-BaklibApi.create_article(params)
-BaklibApi.destroy_article(params)
-BaklibApi.list_articles(params)
-BaklibApi.show_article(params)
-BaklibApi.update_article(params)
-BaklibApi.create_channel(params)
-BaklibApi.destroy_channel(params)
-BaklibApi.list_channels(params)
-BaklibApi.show_channel(params)
-BaklibApi.update_channel(params)
-BaklibApi.create_tenant(params)
-BaklibApi.destroy_tenant(params)
-BaklibApi.list_tenants(params)
-BaklibApi.show_tenant(params)
-BaklibApi.update_tenant(params)
-```
+## 使用
+参考文档：[baklib Ruby SDK 使用指南](https://guide.baklib.com/api_doc/7dcd)
