@@ -1,12 +1,9 @@
-# BaklibApi
-
-baklib官网地址： [https://www.baklib.com/](https://www.baklib.com/)
 ## 安装
 
 在您 Ruby 应用程序的 Gemfile 文件中，添加如下一行代码：
 
 ```ruby
-gem 'baklib_api'
+gem 'baklib_api', git: 'https://github.com/tanmer/baklib_api.git'
 ```
 然后，在应用程序所在的目录下，可以运行 bundle 安装依赖包：
 
@@ -16,16 +13,131 @@ gem 'baklib_api'
 
     $ gem install baklib_api
 
-## 配置
+## 初始化
+在使用SDK之前，您需要一个有效的 `Token` 授权
+
+可以通过如下步骤获得：
+
+1. 点击[注册](https://sso.baklib.com/sign_up)开通baklib账号
+2. 如果已有账号，直接登录七牛开发者后台，点击[这里](ttps://guide.baklib.com/api_doc/2751)查看 `Token`
 在`config/initializers`文件夹下面添加`baklib_api.rb`配置文件
 
-Token值获取请参阅[baklib API官方文档说明](https://guide.baklib.com/api_doc/2751)
+**注意：** 用户应当妥善保存 `Token` ，一旦发生泄露，请立刻到[个人后台](https://sso.baklib.com/tokens)更新。
+
+在使用 Ruby SDK 之前，需要初始化环境，并且设置 `Token`
 ```ruby
+#!/usr/bin/env ruby
 require 'baklib_api'
 BaklibApi::Config.setup do |config|
-  config.token = BAKLIB_TOKEN
+  config.token = '<YOUR_BAKLIB_TOKEN>'
 end
 ```
 
-## 使用
-参考文档：[baklib Ruby SDK 使用指南](https://guide.baklib.com/api_doc/7dcd)
+如果您使用的是 Ruby on Rails 框架，我们建议您在应用初始化启动的过程中，调用上述方法即可，操作如下：
+
+1. 在应用初始化脚本加载的目录中新建一个文件：YOUR_RAILS_APP/config/initializers/baklib_api.rb
+
+2. 编辑 YOUR_RAILS_APP/config/initializers/baklib_api.rb 文件内容如下：
+
+```ruby
+require 'baklib_api'
+BaklibApi::Config.setup do |config|
+  config.token = '<YOUR_BAKLIB_TOKEN>'
+end
+```
+这样，您就可以在您的 RAILS_APP 中使用 baklib Ruby SDK 提供的其他任意方法了。
+
+### 注意
+以下文档教程均以 Ruby on Rails 框架为基础，并仅列出部分方法的用例
+
+### 站点相关
+
+**可调用方法**
+
+1. `create_tenant`
+2. `show_tenant`
+3. `list_tenants`
+4. `update_tenant`
+5. `destroy_tenant`
+
+创建站点代码:
+
+```ruby
+# 获取更多模板请参考api文档教程，以下使用 baklib 官方主题 浅末年华
+create_tenant_params = {
+  name: 'tenant_name',
+  global_layout_id: '46c19ba6-0d0f-4bb4-acf1-26d41e5b56e8',
+  identifier: 'tenant_sld'
+}
+BaklibApi.create_tenant(create_tenant_params)
+```
+
+### 栏目相关
+
+**可调用方法**
+
+1. `create_channel`
+2. `show_channel`
+3. `list_channels`
+4. `update_channel`
+5. `destroy_channel`
+
+创建栏目代码:
+
+```ruby
+update_channel_params = {
+  id: '<channel_id>',
+  tenant_id: '<tenant_id>',
+  name: 'ChannelName',
+  description: 'channel destription'
+}
+BaklibApi.update_channel(update_channel_params)
+```
+
+### 文章相关
+
+**可调用方法**
+
+1. `create_article`
+2. `show_article`
+3. `list_articles`
+4. `update_article`
+5. `destroy_article`
+
+创建文章代码:
+
+```ruby
+update_article_params = {
+  id: '<article_id>',
+  tenant_id: '<tenant_id>',
+  name: 'article_name',
+  tag_list: ['tag_1', 'tag_2'],
+  status: 0,
+  description: 'asd',
+  content: {
+    time: Time.now.to_i,
+    version: '0.0.1',
+    blocks: [
+      {
+        type: "paragraph",
+        data: {
+          text: '让我们写一个很棒的故事'
+        }
+      },
+      {
+        type: "markdown",
+        data: {
+          text: 'baklib支持markdown格式哦！'
+        }
+      },
+      {
+        type: "qiniuImage",
+        data: {
+          url: 'https://assets.baklib.com/home_logo.png'
+        }
+      }
+    ]
+  }
+}
+BaklibApi.update_article(update_article_params)
+```
