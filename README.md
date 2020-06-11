@@ -19,7 +19,7 @@ gem 'baklib_api', git: 'https://github.com/tanmer/baklib_api.git'
 可以通过如下步骤获得：
 
 1. 点击[注册](https://sso.baklib.com/sign_up)开通baklib账号
-2. 如果已有账号，直接登录 `Baklib` 开发者后台，点击[这里](https://api.baklib.com)查看 `Token`
+2. 如果已有账号，进入插件中心，开通 `API` 插件功能。点击[这里](https://api.baklib.com/overview_doc)查看 `Token` 和 `ClientId` 获取方式
 在`config/initializers`文件夹下面添加`baklib_api.rb`配置文件
 
 **注意：** 用户应当妥善保存 `Token` ，一旦发生泄露，请立刻到[个人后台](https://sso.baklib.com/tokens)更新。
