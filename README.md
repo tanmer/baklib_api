@@ -19,7 +19,7 @@ gem 'baklib_api', git: 'https://github.com/tanmer/baklib_api.git'
 可以通过如下步骤获得：
 
 1. 点击[注册](https://sso.baklib.com/sign_up)开通baklib账号
-2. 如果已有账号，直接登录七牛开发者后台，点击[这里](ttps://guide.baklib.com/api_doc/2751)查看 `Token`
+2. 如果已有账号，直接登录 `Baklib` 开发者后台，点击[这里](https://api.baklib.com)查看 `Token`
 在`config/initializers`文件夹下面添加`baklib_api.rb`配置文件
 
 **注意：** 用户应当妥善保存 `Token` ，一旦发生泄露，请立刻到[个人后台](https://sso.baklib.com/tokens)更新。
@@ -30,6 +30,7 @@ gem 'baklib_api', git: 'https://github.com/tanmer/baklib_api.git'
 require 'baklib_api'
 BaklibApi::Config.setup do |config|
   config.token = '<YOUR_BAKLIB_TOKEN>'
+  config.client_id = '<BAKLIB_CLIENT_ID>'
 end
 ```
 
@@ -43,6 +44,7 @@ end
 require 'baklib_api'
 BaklibApi::Config.setup do |config|
   config.token = '<YOUR_BAKLIB_TOKEN>'
+  config.client_id = '<BAKLIB_CLIENT_ID>'
 end
 ```
 这样，您就可以在您的 RAILS_APP 中使用 baklib Ruby SDK 提供的其他任意方法了。
@@ -50,94 +52,40 @@ end
 ### 注意
 以下文档教程均以 Ruby on Rails 框架为基础，并仅列出部分方法的用例
 
-### 站点相关
-
-**可调用方法**
-
-1. `create_tenant`
-2. `show_tenant`
-3. `list_tenants`
-4. `update_tenant`
-5. `destroy_tenant`
-
-创建站点代码:
-
-```ruby
-# 获取更多模板请参考api文档教程，以下使用 baklib 官方主题 浅末年华
-create_tenant_params = {
-  name: 'tenant_name',
-  global_layout_id: '46c19ba6-0d0f-4bb4-acf1-26d41e5b56e8',
-  identifier: 'tenant_sld'
-}
-BaklibApi.create_tenant(create_tenant_params)
-```
-
 ### 栏目相关
 
 **可调用方法**
 
-1. `create_channel`
-2. `show_channel`
-3. `list_channels`
-4. `update_channel`
-5. `destroy_channel`
+1. `BaklibApi::Models::Channel.list`
+3. `BaklibApi::Models::Channel.create`
+2. `BaklibApi::Models::Channel#destroy`
+4. `BaklibApi::Models::Channel#update`
+5. `BaklibApi::Models::Channel#articles`
 
 创建栏目代码:
 
 ```ruby
-update_channel_params = {
-  id: '<channel_id>',
-  tenant_id: '<tenant_id>',
-  name: 'ChannelName',
-  description: 'channel destription'
-}
-BaklibApi.update_channel(update_channel_params)
+BaklibApi::Models::Channel.create(name: 'test')
+```
+
+查看当前栏目的文章：
+```ruby
+channel = BaklibApi::Models::Channel.list.first
+articles = channel.articles
 ```
 
 ### 文章相关
 
 **可调用方法**
 
-1. `create_article`
-2. `show_article`
-3. `list_articles`
-4. `update_article`
-5. `destroy_article`
+1. `BaklibApi::Models::Article.list`
+3. `BaklibApi::Models::Article.create`
+2. `BaklibApi::Models::Article#destroy`
+4. `BaklibApi::Models::Article#update`
 
 创建文章代码:
 
+说明： 目前文章仅支持传输`markdown`格式和`paragraph`格式，默认为`paragraph`格式, 
 ```ruby
-update_article_params = {
-  id: '<article_id>',
-  tenant_id: '<tenant_id>',
-  name: 'article_name',
-  tag_list: ['tag_1', 'tag_2'],
-  status: 0,
-  description: 'asd',
-  content: {
-    time: Time.now.to_i,
-    version: '0.0.1',
-    blocks: [
-      {
-        type: "paragraph",
-        data: {
-          text: '让我们写一个很棒的故事'
-        }
-      },
-      {
-        type: "markdown",
-        data: {
-          text: 'baklib支持markdown格式哦！'
-        }
-      },
-      {
-        type: "qiniuImage",
-        data: {
-          url: 'https://assets.baklib.com/home_logo.png'
-        }
-      }
-    ]
-  }
-}
-BaklibApi.update_article(update_article_params)
+BaklibApi::Models::Article.create(name: 'test', channel_id: channel.id, content_type: 'paragraph', content: 'test content')
 ```

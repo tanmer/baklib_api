@@ -12,14 +12,6 @@ module BaklibApi
       def articles
         Article.list(channel_id: id)
       end
-
-      def create_article(**options)
-        Article.create(options.merge(channel_id: id))        
-      end
-
-      def update_article(**options)
-        update(options.merge(channel_id: id))        
-      end
     end
   end
 end
