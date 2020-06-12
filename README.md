@@ -89,3 +89,10 @@ articles = channel.articles
 ```ruby
 BaklibApi::Models::Article.create(name: 'test', channel_id: channel.id, content_type: 'paragraph', content: 'test content')
 ```
+
+或者直接在某个栏目先创建文章
+
+```ruby
+channel = BaklibApi::Models::Channel.list.first
+channel.create_article(name: 'article_name', content: 'content test')
+```
