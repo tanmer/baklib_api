@@ -79,7 +79,6 @@ articles = channel.articles
 
 **可调用方法**
 
-1. `BaklibApi::Models::Article.list`
 3. `BaklibApi::Models::Article.create`
 2. `BaklibApi::Models::Article#destroy`
 4. `BaklibApi::Models::Article#update`
